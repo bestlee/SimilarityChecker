@@ -1,26 +1,31 @@
 #include "pch.h"
 #include "../SimilarityCheck/Checker.cpp"
 
-TEST(TC_Length, InvalidArgument)
+class SimilatityFixture : public testing::Test
 {
-	EXPECT_THROW(Checker().CheckSimirality("","ABC"), std::invalid_argument);
-	EXPECT_THROW(Checker().CheckSimirality("ABC",""), std::invalid_argument);
-	EXPECT_THROW(Checker().CheckSimirality("123", "ABC"), std::invalid_argument);
-	EXPECT_THROW(Checker().CheckSimirality("ABC", "123"), std::invalid_argument);
-	EXPECT_THROW(Checker().CheckSimirality("abc", "ABC"), std::invalid_argument);
+public:
+	Checker checkSimilar;
+};
+TEST_F(SimilatityFixture, InvalidArgument)
+{
+	EXPECT_THROW(checkSimilar.CheckSimirality("","ABC"), std::invalid_argument);
+	EXPECT_THROW(checkSimilar.CheckSimirality("ABC",""), std::invalid_argument);
+	EXPECT_THROW(checkSimilar.CheckSimirality("123", "ABC"), std::invalid_argument);
+	EXPECT_THROW(checkSimilar.CheckSimirality("ABC", "123"), std::invalid_argument);
+	EXPECT_THROW(checkSimilar.CheckSimirality("abc", "ABC"), std::invalid_argument);
 }
 
-TEST(TC_Length, PerfectMatch)
+TEST_F(SimilatityFixture, PerfectMatch)
 {
-	EXPECT_EQ(MAX_LENGTH_SCORE, Checker().CheckSimirality("ABC", "ABC"));
-	EXPECT_EQ(MAX_LENGTH_SCORE, Checker().CheckSimirality("ABCDE", "ABCDE"));
-	EXPECT_EQ(MAX_LENGTH_SCORE, Checker().CheckSimirality("ABCDEF", "ABCDEF"));
+	EXPECT_EQ(MAX_LENGTH_SCORE, checkSimilar.CheckSimirality("ABC", "ABC"));
+	EXPECT_EQ(MAX_LENGTH_SCORE, checkSimilar.CheckSimirality("ABCDE", "ABCDE"));
+	EXPECT_EQ(MAX_LENGTH_SCORE, checkSimilar.CheckSimirality("ABCDEF", "ABCDEF"));
 }
 
-TEST(TC_Length,lengthMisMatch)
+TEST_F(SimilatityFixture,lengthMisMatch)
 {
-	EXPECT_EQ(0, Checker().CheckSimirality("A", "BB"));
-	EXPECT_EQ(MAX_LENGTH_SCORE, Checker().CheckSimirality("ASD", "DSA"));
-	EXPECT_EQ(20, Checker().CheckSimirality("AAABB", "BAA"));
-	EXPECT_EQ(30, Checker().CheckSimirality("AA", "AAA"));
+	EXPECT_EQ(0, checkSimilar.CheckSimirality("A", "BB"));
+	EXPECT_EQ(MAX_LENGTH_SCORE, checkSimilar.CheckSimirality("ASD", "DSA"));
+	EXPECT_EQ(20, checkSimilar.CheckSimirality("AAABB", "BAA"));
+	EXPECT_EQ(30, checkSimilar.CheckSimirality("AA", "AAA"));
 }

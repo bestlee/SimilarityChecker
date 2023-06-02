@@ -39,31 +39,51 @@ private:
 		}
 	}
 
-	int CalcLengthPoint(int longStrLength, int shortStrLength)
-	{
-		if (longStrLength == shortStrLength) return MAX_LENGTH_SCORE;
-		else if (longStrLength >= (shortStrLength * 2)) return 0;
-
-		return (1 - ((longStrLength - shortStrLength) / (double)shortStrLength)) * MAX_LENGTH_SCORE;
-	}
-
 	int checkLength(const std::string str, const std::string str2)
 	{
-		int lengthCheck = 0;
-		std::string longStr = str;
-		std::string shortStr = str2;
-
-		if (str.length() < str2.length())
-		{
-			longStr = str2;
-			shortStr = str;
-		}
-
-		int longStrLength = longStr.length();
-		int shortStrLength = shortStr.length();
+		int longStrLength = getLongLength(str, str2);
+		int shortStrLength = getShortLength(str, str2);
 
 		return CalcLengthPoint(longStrLength, shortStrLength);
 	}
+
+	bool isSameLength(int longStrLength, int shortStrLength)
+	{
+		return longStrLength == shortStrLength;
+	}
+
+	bool isNegativeValue(int longStrLength, int shortStrLength)
+	{
+		return longStrLength >= (shortStrLength * 2);
+	}
+
+	int CalcLengthPoint(int longStrLength, int shortStrLength)
+	{
+		if (isSameLength(longStrLength, shortStrLength)) return MAX_LENGTH_SCORE;
+		else if (isNegativeValue(longStrLength, shortStrLength)) return 0;
+
+		return (MAX_LENGTH_SCORE - (MAX_LENGTH_SCORE*(longStrLength - shortStrLength) / shortStrLength));
+	}
+
+	int getLongLength(const std::string str, const std::string str2)
+	{
+		if (str.length() < str2.length())
+		{
+			return str2.length();
+		}
+		return str.length();
+	}
+
+	int getShortLength(const std::string str, const std::string str2)
+	{
+		if (str.length() > str2.length())
+		{
+			return str2.length();
+		}
+
+		return str.length();
+	}
+
 
 	int checkAlpha(const std::string str, const std::string str2)
 	{
