@@ -44,7 +44,7 @@ private:
 		if (longStrLength == shortStrLength) return MAX_LENGTH_SCORE;
 		else if (longStrLength >= (shortStrLength * 2)) return 0;
 
-		return (1 - ((longStrLength - shortStrLength) / (double)shortStrLength)) * MAX_LENGTH_SCORE;;
+		return (1 - ((longStrLength - shortStrLength) / (double)shortStrLength)) * MAX_LENGTH_SCORE;
 	}
 
 	int checkLength(const std::string str, const std::string str2)
